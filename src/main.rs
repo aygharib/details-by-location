@@ -32,11 +32,15 @@ fn main() {
     let location_name: &str = &args[1];
 
     // Create map to store data
-    build_map();
+    let locations_map: HashMap<String, Location> = build_map();
 
+    match locations_map.get(&String::from(location_name)) {
+        Some(location) => println!("{}", location.temperature),
+        None => println!("Nothing"),
+    }
 }
 
-fn build_map() {
+fn build_map() -> HashMap<String, Location> {
     let mut locations_map: HashMap<String, Location> = HashMap::new();
 
     locations_map.insert(String::from("Toronto"), Location {
@@ -46,10 +50,12 @@ fn build_map() {
         longitude: 79.3832,
     });
 
-    let a = locations_map.get(&String::from("Toronto"));
+    return locations_map;
+
+    // let a = locations_map.get(&String::from("Toronto"));
     
-    match locations_map.get(&String::from("Toronto")) {
-        Some(lol) => println!("{}", lol.temperature),
-        None => println!("Nothing"),
-    }
+    // match locations_map.get(&String::from("Toronto")) {
+    //     Some(lol) => println!("{}", lol.temperature),
+    //     None => println!("Nothing"),
+    // }
 }
