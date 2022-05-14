@@ -1,21 +1,4 @@
-// CLI APP
-// Will accept a location (Toronto) and display the temperature of the location
-
-// Option 1:
-// Store temperatures for each location in a hashmap
-// Update this hashmap based on live data every X time
-// If the user requests for a location that isn't listed, alert them of invalid input
-
-// Option 2:
-// Store a list of Location structs, one for each location. Locations have temp, latitude, longitude, season, etc.
-// Pro: more data
-// Con: how will i find the correct ele of array based on user input without going through the whole list?
-
-// Option 3: <--- Doing this
-// Map of Location structs. Not using a list since order doesn't matter
-// Key: location name
-// Value: Location struct
-
+// Will accept a location and display details for the location
 
 use std::env;
 use std::collections::HashMap;
@@ -31,31 +14,23 @@ fn main() {
     let args: Vec<String> = env::args().collect();
     let location_name: &str = &args[1];
 
-    // Create map to store data
     let locations_map: HashMap<String, Location> = build_map();
 
-    match locations_map.get(&String::from(location_name)) {
-        Some(location) => println!("{}", location.temperature),
-        None => println!("Nothing"),
+    match locations_map.get(&String::from(location_name.to_lowercase())) {
+        Some(location) => println!("Location: {} \nLatitude: {} \nLongitude: {} \nTemperature: {}", location.name, location.latitude, location.longitude, location.temperature),
+        _ => println!("There is no information stored for this location"),
     }
 }
 
 fn build_map() -> HashMap<String, Location> {
     let mut locations_map: HashMap<String, Location> = HashMap::new();
 
-    locations_map.insert(String::from("Toronto"), Location {
+    locations_map.insert(String::from("Toronto".to_lowercase()), Location {
         name: String::from("Toronto"),
         temperature: 23.3,
         latitude: 43.6532,
         longitude: 79.3832,
     });
 
-    return locations_map;
-
-    // let a = locations_map.get(&String::from("Toronto"));
-    
-    // match locations_map.get(&String::from("Toronto")) {
-    //     Some(lol) => println!("{}", lol.temperature),
-    //     None => println!("Nothing"),
-    // }
+    locations_map
 }
