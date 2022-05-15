@@ -1,19 +1,8 @@
-// Will accept a location and display details for the location
-
 use std::env;
-use std::collections::HashMap;
 
 use dotenv::dotenv;
 use reqwest::Error;
-
 use serde::{Deserialize, Serialize};
-
-struct Location {
-    name: String,
-    temperature: f32,
-    latitude: f32,
-    longitude: f32,
-}
 
 #[derive(Serialize, Deserialize)]
 struct Geocode {
@@ -45,26 +34,6 @@ fn main() {
     let location_name: &str = &args[1];
 
     api_call_coords(String::from(location_name));
-
-    // let locations_map: HashMap<String, Location> = build_map();
-
-    // match locations_map.get(&String::from(location_name.to_lowercase())) {
-    //     Some(location) => println!("Location: {} \nLatitude: {} \nLongitude: {} \nTemperature: {}", location.name, location.latitude, location.longitude, location.temperature),
-    //     _ => println!("There is no information stored for this location"),
-    // }
-}
-
-fn build_map() -> HashMap<String, Location> {
-    let mut locations_map: HashMap<String, Location> = HashMap::new();
-
-    locations_map.insert(String::from("Toronto".to_lowercase()), Location {
-        name: String::from("Toronto"),
-        temperature: 23.3,
-        latitude: 43.6532,
-        longitude: 79.3832,
-    });
-
-    locations_map
 }
 
 fn api_call_coords(location_name: String) -> Result<(), Error> {
@@ -91,8 +60,4 @@ fn api_call_coords(location_name: String) -> Result<(), Error> {
     println!("City: {} \nState: {} \nCountry: {} \nLatitude: {} \nLongitude: {} \nTemperature: {}", response[0].name, response[0].state, response[0].country, response[0].lat, response[0].lon, response2.main.temp);
 
     Ok(())
-}
-
-fn api_call_temperature() {
-    let temperature_request_url = "https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={API key}";
 }
