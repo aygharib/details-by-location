@@ -1,6 +1,6 @@
 # details-by-location
 
-Takes in user input and returns details to the best matching result.
+CLI tool takes in city name and returns weather, coordinates, and other details to the best matching result.
 
 ## Example
 ```cargo run London```
